@@ -2,6 +2,7 @@
 
 import uuid
 import datetime as d
+import models
 
 class BaseModel:
     """Defines all common attributes of other classes"""
@@ -22,6 +23,8 @@ class BaseModel:
             self.created_at = d.datetime.now()
             self.updated_at = d.datetime.now()
 
+        models.storage.new(self)
+
 
     def __str__(self):
         """String representation of the class BaseModel"""
@@ -31,6 +34,7 @@ class BaseModel:
     def save(self):
         """Update the public instance attribute - updated_at """
         self.updated_at = d.datetime.now()
+        models.storage.save()
 
 
     def to_dict(self):
@@ -40,3 +44,4 @@ class BaseModel:
         my_dict["created_at"] = self.created_at.isoformat()
         my_dict["updated_at"] = self.updated_at.isoformat()
         return my_dict
+
