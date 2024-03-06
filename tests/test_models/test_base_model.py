@@ -30,6 +30,13 @@ class TestBaseModel(unittest.TestCase):
         model = BaseModel()
         expected_output = f"[{model.__class__.__name__}] ({model.id}) {model.__dict__}"
         self.assertEqual(str(model), expected_output)
+    def test_to_dict_rep(self):
+        model = BaseModel()
+        model_dict = model.to_dict()
+        self.assertIsInstance(model_dict, dict)
+        self.assertIn('__class__', model_dict)
+        self.assertIn('created_at', model_dict)
+        self.assertIn('updated_at', model_dict)
 
 if __name__ == '__main__':
     unittest.main()
