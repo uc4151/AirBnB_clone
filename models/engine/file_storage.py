@@ -19,7 +19,7 @@ class FileStorage:
     def new(self, obj):
         """Creates new object with the key: 'class_name.id'"""
         obj_className = obj.__class__.__name__
-        key = f"{obj_className}.{obj.id}"
+        key = "{}.{}".format(obj_className, obj.id)
         FileStorage.__objects[key] = obj
 
 
@@ -46,6 +46,24 @@ class FileStorage:
                     class_name = obj["__class__"]
                     del obj["__class__"]
                     self.new(eval(class_name)(**obj))
+        except ValueError:
+                            print("Error: Invalid JSON data in file.")
         except FileNotFoundError:
+<<<<<<< HEAD
             return
             
+=======
+            pass
+    try:
+        with open(FileStorage.__file_path, "r") as file_data:
+            try:
+                FileStorage.__objects = json.load(file_data)
+                for obj in FileStorage.__objects.values():
+                    class_name = obj["__class__"]
+                    del obj["__class__"]
+                    self.new(eval(class_name)(**obj))
+            except ValueError:
+                print("Error: Invalid JSON data in file.")                                                                                                          
+    except FileNotFoundError:
+        pass
+>>>>>>> 560ca64b882563c730cd3223fb8c532d9db2c727
