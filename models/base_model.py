@@ -2,7 +2,7 @@
 
 import uuid
 import datetime as d
-import models
+from models import storage
 
 class BaseModel:
     """Defines all common attributes of other classes"""
@@ -23,7 +23,7 @@ class BaseModel:
             self.created_at = d.datetime.now()
             self.updated_at = d.datetime.now()
 
-        models.storage.new(self)
+        storage.new(self)
 
 
     def __str__(self):
@@ -34,7 +34,7 @@ class BaseModel:
     def save(self):
         """Update the public instance attribute - updated_at """
         self.updated_at = d.datetime.now()
-        models.storage.save()
+        storage.save()
 
 
     def to_dict(self):
