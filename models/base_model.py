@@ -2,7 +2,8 @@
 
 import uuid
 import datetime as d
-from models import storage
+import models
+
 
 class BaseModel:
     """Defines all common attributes of other classes"""
@@ -10,20 +11,19 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """Public instance attributes"""
+
+        self.id = str(uuid.uuid4())
+        self.created_at = d.datetime.now()
+        self.updated_at = d.datetime.now()
         if kwargs:
             for key, value in kwargs.items():
-                if key == "__class__":
-                    pass
-                elif key == "created_at" or key == "updated_at":
-                    setattr(self, key, d.datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f'))
+                if key != "__class__":
+                    if key == "created_at" or key == "updated_at":
+                        value = d.datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                 else:
                     setattr(self, key, value)
         else:
-            self.id = str(uuid.uuid4())
-            self.created_at = d.datetime.now()
-            self.updated_at = d.datetime.now()
-
-        storage.new(self)
+            models.storage.new(self)
 
 
     def __str__(self):
@@ -34,7 +34,7 @@ class BaseModel:
     def save(self):
         """Update the public instance attribute - updated_at """
         self.updated_at = d.datetime.now()
-        storage.save()
+        models.storage.save()
 
 
     def to_dict(self):
