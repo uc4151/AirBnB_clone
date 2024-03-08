@@ -39,9 +39,9 @@ class BaseModel:
         my_dict = self.__dict__.copy()
         my_dict["__class__"] = self.__class__.__name__
         
-        if isinstance(my_dict["created_at"], dt.datetime):
+        if isinstance(my_dict["created_at"], d.datetime):
             my_dict["created_at"] = my_dict["created_at"].isoformat()
-        if isinstance(my_dict["updated_at"], dt.datetime):
+        if isinstance(my_dict["updated_at"], d.datetime):
             my_dict["updated_at"] = my_dict["updated_at"].isoformat()
 
         return my_dict
