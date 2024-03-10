@@ -28,8 +28,9 @@ class TestBaseModel(unittest.TestCase):
 
     def test_str_rep(self):
         model = BaseModel()
-        expected_output = f"[{model.__class__.__name__}] ({model.id}) {model.__dict__}"
+        expected_output = "[{}] ({}) {}".format(model.__class__.__name__, model.id, model.__dict__)
         self.assertEqual(str(model), expected_output)
+
     def test_to_dict_rep(self):
         model = BaseModel()
         model_dict = model.to_dict()
@@ -38,6 +39,12 @@ class TestBaseModel(unittest.TestCase):
         self.assertIn('created_at', model_dict)
         self.assertIn('updated_at', model_dict)
 
+    def test_with_instance(self):
+        created_at = '2022-01-01T12:00:00.000000'
+        updated_at = '2022-01-01T12:30:00.000000'
+        model = BaseModel(created_at=created_at, updated_at=updated_at)
+        self.assertEqual(model.created_at, d.datetime.strptime(created_at, '%Y-%m-%dT%H:%M:%S.%f'))
+        self.assertEqual(model.updated_at, d.datetime.strptime(updated_at, '%Y-%m-%dT%H:%M:%S.%f'))
+
 if __name__ == '__main__':
     unittest.main()
-
