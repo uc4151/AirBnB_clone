@@ -41,24 +41,10 @@ class FileStorage:
         """
         try:
             with open(FileStorage.__file_path, "r") as file_data:
-                FileStorage.__objects = json.load(file_data)
-                for obj in FileStorage.__objects.values():
+                prev_data = json.load(file_data)
+                for obj in prev_data.values():
                     class_name = obj["__class__"]
                     del obj["__class__"]
                     self.new(eval(class_name)(**obj))
-        except ValueError:
-                            print("Error: Invalid JSON data in file.")
         except FileNotFoundError:
-            pass
-    try:
-        with open(FileStorage.__file_path, "r") as file_data:
-            try:
-                FileStorage.__objects = json.load(file_data)
-                for obj in FileStorage.__objects.values():
-                    class_name = obj["__class__"]
-                    del obj["__class__"]
-                    self.new(eval(class_name)(**obj))
-            except ValueError:
-                print("Error: Invalid JSON data in file.")                                                                                                          
-    except FileNotFoundError:
-        pass
+            return
