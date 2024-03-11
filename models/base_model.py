@@ -8,22 +8,30 @@ import models
 class BaseModel:
     """Defines all common attributes of other classes"""
 
-
     def __init__(self, *args, **kwargs):
         """Public instance attributes"""
-
         self.id = str(uuid.uuid4())
         self.created_at = d.datetime.now()
         self.updated_at = d.datetime.now()
+
+        # Check if '__class__' is present in kwargs
+        class_name = kwargs.pop("__class__", None)
+
+        # If class_name is not None, set the class attribute
+        if class_name:
+            class_attr = globals().get(class_name)
+            if class_attr:
+                setattr(self, "__class__", class_attr)
+
+        # Set other attributes
         if kwargs:
             for key, value in kwargs.items():
                 if key != "__class__":
                     if key == "created_at" or key == "updated_at":
                         value = d.datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
-                else:
                     setattr(self, key, value)
-        else:
-            models.storage.new(self)
+        models.storage.new(self)
+
 
     def __str__(self):
         """String representation of the class BaseModel"""
