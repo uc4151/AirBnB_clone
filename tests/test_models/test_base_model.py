@@ -17,6 +17,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertNotEqual(model1.id, model2.id)
 
     def test_created_at(self):
+        A
         model = BaseModel()
         self.assertIsInstance(model.created_at, dt.datetime)
 
