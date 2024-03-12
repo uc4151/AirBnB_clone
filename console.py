@@ -4,7 +4,12 @@ import cmd
 import shlex
 from models import storage
 from models.base_model import BaseModel
-
+from models.user import User
+from models.state import State
+from models.city import City
+from models.place import Place
+from models.amenity import Amenity
+from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
@@ -13,7 +18,8 @@ class HBNBCommand(cmd.Cmd):
     command interpreter for our Airbnb project
     """
     prompt = "(hbnb) "
-    class_names = ["BaseModel"]
+    class_names = ["BaseModel", "User", "State", "City", "Place", "Amenity", "Review"]
+
 
     def do_quit(self, line):
         """This command exits the program"""
@@ -51,7 +57,7 @@ class HBNBCommand(cmd.Cmd):
         elif new_arg[0] not in self.class_names:
             print("** class doesn't exist **")
         else:
-            new_item = BaseModel()
+            new_item = eval(f"{new_arg[0]}()")
             new_item.save()
             print(new_item.id)
     
