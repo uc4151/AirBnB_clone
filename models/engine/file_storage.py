@@ -1,5 +1,11 @@
 #!/usr/bin/python3
 
+from models.user import User
+from models.state import State
+from models.city import City
+from models.place import Place
+from models.amenity import Amenity
+from models.review import Review
 import json
 from models.base_model import BaseModel
 
@@ -31,7 +37,7 @@ class FileStorage:
         obj_dict = {obj: file_dict[obj].to_dict() for obj in file_dict.keys()}
 
         with open(FileStorage.__file_path, "w") as file_data:
-            json.dump(obj_dict, file_data, indent=4)
+            json.dump(obj_dict, file_data)
             file_data.write("\n")
 
 
